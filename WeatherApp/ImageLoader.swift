@@ -12,7 +12,7 @@ import UIKit
 extension UIImageView {
     func downloadImageFromURLString(_ urlString:String) {
         // Getting file URL from documents path directory.
-        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(urlString)
+        let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent((urlString as NSString).lastPathComponent)
         // Checking if the image has already exists at file path.
         if FileManager.default.fileExists(atPath: fileURL.path) {
             self.image = UIImage(contentsOfFile: fileURL.path)

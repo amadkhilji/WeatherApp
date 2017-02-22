@@ -11,8 +11,8 @@ import UIKit
 extension SearchWeatherController: UISearchBarDelegate {
     // UISearchBar Delegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
         DispatchQueue.global().async {
-            searchBar.resignFirstResponder()
             self.searchWeatherForCity(name: searchBar.text!)
         }
     }
@@ -64,16 +64,24 @@ class SearchWeatherController: UIViewController {
         
         let weather = self.appDelegate.weather
         
-        self.cityName.text = weather.cityName
-        self.countryName.text = weather.countryName
-        self.titleLabel.text = weather.title
-        self.descriptionLabel.text = weather.description
+        self.cityName.text = "City Name: " + weather.cityName
+        self.countryName.text = "Country Name: " + weather.countryName
+        self.titleLabel.text = "Title: " + weather.title
+        self.descriptionLabel.text = "Description: " + weather.description
         self.iconImage.downloadImageFromURLString(weather.iconURL)
     }
     
     // Clearing weather data
     func clearWeatherData() -> Void {
-        //
+        // Deleting weather data.
+        self.appDelegate.weather.delete()
+        
+        // Clearing the UI elements.
+        self.cityName.text = "City Name: "
+        self.countryName.text = "Country Name: "
+        self.titleLabel.text = "Title: "
+        self.descriptionLabel.text = "Description: "
+        self.iconImage.image = nil
     }
 
     // Search weather request on the basis of city name method.

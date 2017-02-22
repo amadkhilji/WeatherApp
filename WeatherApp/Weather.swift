@@ -70,6 +70,7 @@ struct Weather {
         self.iconURL = ""
     }
     
+    // Saving the existing data.
     func save() -> Void {
         let data = ["cityName": cityName, "countryName": countryName, "title": title, "description": description, "iconURL": iconURL]
         let defaults = UserDefaults.standard
@@ -77,14 +78,28 @@ struct Weather {
         defaults.synchronize()
     }
     
+    // Deleting the existing data.
+    mutating func delete() -> Void {
+        self.cityName = ""
+        self.countryName = ""
+        self.title = ""
+        self.description = ""
+        self.iconURL = ""
+        
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "Weather")
+        defaults.synchronize()
+    }
+    
+    // Loading the existing data.
     mutating func load() -> Void {
         let defaults = UserDefaults.standard
         if let data = defaults.object(forKey: "Weather") as? [String: String] {
-            cityName = data["cityName"]!
-            countryName = data["countryName"]!
-            title = data["title"]!
-            description = data["description"]!
-            iconURL = data["iconURL"]!
+            self.cityName = data["cityName"]!
+            self.countryName = data["countryName"]!
+            self.title = data["title"]!
+            self.description = data["description"]!
+            self.iconURL = data["iconURL"]!
         }
     }
 }
